@@ -19,7 +19,7 @@ function onInstall(e) {
 
 function showSidebar() {
   var doc = SpreadsheetApp.getActive();
-  var html = HtmlService.createTemplateFromFile('Page');
+  var html = HtmlService.createTemplateFromFile('ex/Page');
   html.ga = {page_title: doc.getName(),
              page_url: doc.getUrl(),
              user_id: Session.getTemporaryActiveUserKey()};
