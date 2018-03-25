@@ -1,0 +1,27 @@
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-48225260-5"></script>
+<script>
+  // Respect do not track for all browsers. Except for IE 10 and 11 where we ignore it
+  // https://hjnilsson.com/2015/11/30/setting-up-dnt/
+  var dnt_isIe10or11 = (navigator.appVersion.indexOf("MSIE 10") !== -1) || (navigator.userAgent.indexOf("Trident") !== -1 && navigator.userAgent.indexOf("rv:11") !== -1);
+  var DNT = (navigator.doNotTrack || navigator.msDoNotTrack || window.doNotTrack);
+  DNT = !DNT || DNT == "unspecified" || DNT == "0" ? false : true;
+  if (!DNT || dnt_isIe10or11) {
+    // do track
+    google.script.run.expose('GATrack','setDoNotTrack', '' );
+  } else {
+    // don't track
+    window['ga-disable-UA-48225260-5'] = true;
+    google.script.run.expose('GATrack','setDoNotTrack', true );
+  }
+
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-48225260-5',{
+    'page_title': GA.page_title,
+    'page_location': GA.page_url,
+    'user_id': GA.user_id
+  });
+</script>

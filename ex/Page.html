@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <link rel="stylesheet" href="https://ssl.gstatic.com/docs/script/css/add-ons1.css">
+
+    <script>
+      var GA = <?!= JSON.stringify(ga) ?>;
+    </script>
+    <?!= include('GA.js'); ?>
+  </head>
+  <body>
+    <p>List of things: <button id="fetch" class="action">Fetch</button></p>
+    <ul id="things">
+    </ul>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script>
+    // The code in this function runs when the page is loaded.
+    $(function() {
+      $('#fetch').on('click', function(){
+        $(this).prop('disabled', true);
+        $('#things').append('<li>Loading...</li>')
+        google.script.run.withSuccessHandler(showThings)
+            .getLotsOfThings();
+        // GA Event Tracking
+        // https://developers.google.com/analytics/devguides/collection/gtagjs/events
+        gtag('event', 'Name Gen.', {event_category: 'GATrackDemo',event_label: 'Fetch Request', value: 1});
+      });
+    });
+
+    function showThings(things) {
+      var list = $('#things');
+      list.empty();
+      for (var i = 0; i < things.length; i++) {
+        list.append('<li>' + things[i] + '</li>');
+      }
+      $('#fetch').prop('disabled', false);
+      // GA Event Tracking
+      // https://developers.google.com/analytics/devguides/collection/gtagjs/events
+      gtag('event', 'Name Gen.', {event_category: 'GATrackDemo',event_label: 'Fetch Success', value: 1});
+    }
+    </script>
+  </body>
+</html>
