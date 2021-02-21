@@ -1,21 +1,21 @@
 // Developed by mhawksey
 // https://github.com/mhawksey/GATrack/blob/master/LICENSE
 var GATrack = (function (ns) {
-
+  
   // Globals
   var GA_BATCH = [];
   var TRACKING_KEY = 'GATrack_Pref';
-
+  
   /*
   * Initialize with Google Analytics Tracking ID / Web Property ID.
-  * @param {string} TID of Tracking ID / Web Property ID
-  * @param {string} optUID setting optional User ID
+  * @param {string} TID of Tracking ID / Web Property ID 
+  * @param {string} optUID setting optional User ID 
   */
   ns.init = function (TID, optUID) {
     ns.setProp_('TID',TID);
     ns.setProp_('UID',optUID || '');
   };
-
+  
   /*
   * Build data to send Google Analytics Measurement Protocol.
   * @param {Object} hitsObject to queue for Google Analytics
@@ -23,15 +23,15 @@ var GATrack = (function (ns) {
   ns.addToGA = function (hitsObject){
     var base = {v:   '1',
                 tid: ns.getProp_('TID')};
-
+                
     if (ns.getProp_('UID')){
       base.uid = ns.getProp_('UID');
     }
-
+    
     // merge hitsObject with base
     // https://stackoverflow.com/a/171256
-    for (var a in base) {
-      hitsObject[a] = base[a];
+    for (var a in base) { 
+      hitsObject[a] = base[a]; 
     }
     // turn obejct into querystring
     var payload = Object.keys(hitsObject).map(function(key) {
@@ -42,7 +42,7 @@ var GATrack = (function (ns) {
     // [As the measurement protocol returns no error for invalid hits the test_url can be used to validate]
     // console.log({call: 'addToGa',data:payload, test_url: 'https://ga-dev-tools.appspot.com/hit-builder/?'+payload});
   }
-
+  
   /*
   * Adds our GA call to a queue and sends when it hits 20
   * @param {string} query for event to track
@@ -51,11 +51,11 @@ var GATrack = (function (ns) {
   function addToGABatch_(query, date){
     GA_BATCH.push({query: query, time:date});
     if (GA_BATCH.length >= 20){
-      ns.flushGAQueue();
+      ns.flushGAQueue(); 
     }
   }
-
-  /*
+  
+  /* 
   * Send data to GA from queue
   */
   ns.flushGAQueue = function (){
@@ -77,7 +77,7 @@ var GATrack = (function (ns) {
       GA_BATCH = [];
     }
   }
-
+  
   /**
   * Gets tracking pref using caching.
   * @returns {Boolean} tracking pref.
@@ -85,14 +85,14 @@ var GATrack = (function (ns) {
   ns.getDoNotTrack = function (){
     return ns.getProp_(TRACKING_KEY) == 'true'
   }
-
+  
   /**
   * Sets tracking pref using caching.
   */
   ns.setDoNotTrack = function(pref){
     ns.setProp_(TRACKING_KEY, pref);
   }
-
+  
   /**
   * Sets a static user property, using caching.
   * @param {string} key The property key.
@@ -102,7 +102,7 @@ var GATrack = (function (ns) {
     PropertiesService.getUserProperties().setProperty(key, value);
     CacheService.getUserCache().put(key, value, 86400);
   }
-
+  
   /**
   * Gets a static document property, using caching.
   * @param {string} key The property key.
