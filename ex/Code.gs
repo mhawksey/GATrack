@@ -3,7 +3,7 @@
 function onOpen(e) {
   var menu = SpreadsheetApp.getUi().createAddonMenu();
   if (e && e.authMode !== ScriptApp.AuthMode.NONE) {
-    // As using Properties service and URLFetchApp can only run when not in AuthMode.NONE
+    // As using Properties service and URLFetchApp can only run when not in AuthMode.NONE 
     GATrack.init('UA-48225260-5', Session.getTemporaryActiveUserKey());
     menu.addItem('Show Sidebar', 'showSidebar');
   } else {
@@ -19,7 +19,7 @@ function onInstall(e) {
 
 function showSidebar() {
   var doc = SpreadsheetApp.getActive();
-  var html = HtmlService.createTemplateFromFile('ex/Page');
+  var html = HtmlService.createTemplateFromFile('Page');
   html.ga = {page_title: doc.getName(),
              page_url: doc.getUrl(),
              user_id: Session.getTemporaryActiveUserKey()};
@@ -43,7 +43,7 @@ function getLotsOfThings(){
       // GA Event Tracking
       // https://developers.google.com/analytics/devguides/collection/protocol/v1/devguide#event
       GATrack.addToGA({t: 'event', ec: 'GATrackDemo', ea: 'Name Gen.', el: 'Name Length', ev:names[idx].length});
-    });
+    }); 
     var now = new Date().getTime();
     var time = now - start;
     // GA User Timing
